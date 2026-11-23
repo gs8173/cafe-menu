@@ -1,0 +1,40 @@
+'use client'
+import { useState } from "react"
+import Section from "./Section";
+
+const GOAL = 10;
+
+export default function StampCard() {
+    const [stamps, setStamps] = useState([]);
+    const isFull = stamps.length >= GOAL;
+
+    function addStamp() {
+        setStamps([...stamps, '☕']);
+    }
+
+    function removeLast() {
+        setStamps(stamps.slice(0, -1));
+    }
+
+
+    function reset() {
+        setStamps([]);
+    }
+
+    return (
+        <Section className="stamp-card">
+            <h2>🎫스탬프 쿠폰({stamps.length}/{GOAL})</h2>
+            <div className='stamps'>
+                {stamps.map((stamp, index) => (
+                    <span key={index}>{stamp}</span>
+                ))}
+            </div>
+            {stamps.length === 0 && <p className="empty">아직 스탬프가 없습니다.</p>}
+            {isFull && <p className="notice">🎉무료 음료 1잔 쿠폰이 완성되었습니다!</p>}
+
+            <button onClick={addStamp} disabled={isFull}>스탬프 찍기</button>
+            <button onClick={removeLast} disabled={stamps.length === 0}>하나 취소</button>
+            <button onClick={reset}>스탬프 초기화</button>
+        </Section>
+    )
+}
